@@ -20,6 +20,9 @@
 			// generate encoded token using lti vars signed with the jwt secret
             $jwt_encode_token = JWT::encode($jwt_token, $config['jwt_key']);
 
+
+			$lti_vars = $lti->calldata();
+
 			$lti_id = $lti->lti_id();
 			$user_id = $lti->user_id();
 			$course_id = $lti->course_id();
@@ -54,8 +57,8 @@
     </head>
     <body>
     <script type="text/javascript">
-
-		//$LTI = JSON.parse("<?php //echo addslashes(json_encode($lti->calldata())); ?>");
+		$LTI_VARS = <?php echo json_encode($lti_vars); ?>;
+		$JWT_TOKEN = '<?php echo $jwt_encode_token; ?>';
 		
 		$LTI = {};
 		$LTI['id'] = '<?php echo $lti_id; ?>';
@@ -63,7 +66,6 @@
 		$LTI['courseID'] = '<?php echo addslashes($course_id); ?>';
 		$LTI['user_role'] = '<?php echo $user_roles; ?>';
 		
-		$JWT_TOKEN = '<?php echo $jwt_encode_token; ?>';
 		
 	</script>
     <div id="app"></div>
